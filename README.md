@@ -9,6 +9,12 @@
   Surface exposed endpoints, client-side vulnerabilities, and leaked source maps automatically.
 </p>
 
+<p align="center">
+  <a href="https://score.getplumber.io/github.com/js-recon/js-recon-action">
+    <img src="https://score.getplumber.io/github.com/js-recon/js-recon-action.svg" alt="Plumber Score">
+  </a>
+</p>
+
 ---
 
 ## Usage

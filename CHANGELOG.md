@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.4 - 2026-08-11
+
+### Fixed
+
+- Removed `PUPPETEER_SKIP_DOWNLOAD=true` from the image. Chrome was pre-installed at build time using the base image's own bundled Puppeteer version; installing a newer `@js-recon/js-recon` at runtime could require a different Chrome build than the one baked in, causing `Could not find Chrome (ver. ...)` failures with `version: latest`. The runtime `npm install -g` now triggers Puppeteer's normal postinstall download, which always fetches the exact Chrome build the resolved version needs.
+
 ## 1.0.3 - 2026-07-15
 
 ### Changed

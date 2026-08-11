@@ -3,7 +3,6 @@ FROM ghcr.io/puppeteer/puppeteer:24.43.1
 WORKDIR /home/pptruser
 
 USER root
-ENV PUPPETEER_SKIP_DOWNLOAD=true
 RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     libnspr4 libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 \

@@ -15,6 +15,8 @@ jobs:
     # published to the GitHub Marketplace (the default GITHUB_TOKEN / github-actions
     # bot cannot publish to the Marketplace).
     environment: publish-marketplace
+    permissions:
+      contents: read
     steps:
       - name: Checkout main
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
