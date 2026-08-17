@@ -8,6 +8,8 @@ VERSION="${INPUT_VERSION:-latest}"
 BREAK_ON_MAP="${INPUT_BREAK_ON_MAP_FILES:-true}"
 BREAK_ON_VULNS="${INPUT_BREAK_ON_VULNERABILITIES:-true}"
 SEVERITY="${INPUT_VULNERABILITY_SEVERITY:-high}"
+CONFIDENTIAL_PATHS="${INPUT_CONFIDENTIAL_PATHS:-}"
+BREAK_ON_CONFIDENTIAL="${INPUT_BREAK_ON_CONFIDENTIAL_PATHS:-true}"
 OUTPUT_DIR="${INPUT_OUTPUT_DIR:-js-recon-output}"
 
 echo "[js-recon] Installing @js-recon/js-recon@${VERSION}..."
@@ -83,4 +85,18 @@ fi
 
 if [ "${BREAK_ON_VULNS}" = "true" ] && [ -n "${ANALYZE_JSON}" ]; then
     node /scripts/check-findings.js "${ANALYZE_JSON}" "${SEVERITY}" || exit 1
+fi
+
+# Find mapped-openapi.json inside the normalised host subdirectory
+OPENAPI_JSON=$(find "${OUTPUT_DIR}" -name "mapped-openapi.json" 2>/dev/null | head -1)
+
+# Check confidential path keywords
+CONF_COUNT=0
+if [ -n "${OPENAPI_JSON}" ] && [ -n "${CONFIDENTIAL_PATHS}" ]; then
+    CONF_COUNT=$(node /scripts/check-confidential-paths.js "${OPENAPI_JSON}" "${CONFIDENTIAL_PATHS}" --count-only 2>/dev/null || echo 0)
+fi
+[ -n "${GITHUB_OUTPUT}" ] && echo "confidential-paths-found=${CONF_COUNT}" >> "${GITHUB_OUTPUT}"
+
+if [ "${BREAK_ON_CONFIDENTIAL}" = "true" ] && [ -n "${OPENAPI_JSON}" ] && [ -n "${CONFIDENTIAL_PATHS}" ]; then
+    node /scripts/check-confidential-paths.js "${OPENAPI_JSON}" "${CONFIDENTIAL_PATHS}" || exit 1
 fi

@@ -4,7 +4,7 @@
   "description": "GitHub Action for JS Recon",
   "type": "module",
   "scripts": {
-    "test": "node --test scripts/check-findings.test.js"
+    "test": "node --test scripts/*.test.js"
   },
   "license": "MIT"
 }

@@ -34,6 +34,14 @@ inputs:
     description: "Minimum severity to fail on: low, medium, or high"
     required: false
     default: "high"
+  confidential-paths:
+    description: "Comma or newline-separated keywords to flag as confidential in OpenAPI path segments (e.g. admin,administrator)"
+    required: false
+    default: ""
+  break-on-confidential-paths:
+    description: "Fail if confidential path keywords are detected in mapped-openapi.json"
+    required: false
+    default: "true"
   output-dir:
     description: "Directory where JS Recon output files are saved"
     required: false
@@ -44,6 +52,8 @@ outputs:
     description: "Whether .map source map files were detected (true or false)"
   vulnerability-count:
     description: "Number of vulnerabilities found at or above the configured severity"
+  confidential-paths-found:
+    description: "Number of OpenAPI paths matching a confidential-paths keyword"
   output-path:
     description: "Absolute path to the JS Recon output directory"
 
@@ -58,4 +68,6 @@ runs:
     INPUT_BREAK_ON_MAP_FILES: ${{ inputs.break-on-map-files }}
     INPUT_BREAK_ON_VULNERABILITIES: ${{ inputs.break-on-vulnerabilities }}
     INPUT_VULNERABILITY_SEVERITY: ${{ inputs.vulnerability-severity }}
+    INPUT_CONFIDENTIAL_PATHS: ${{ inputs.confidential-paths }}
+    INPUT_BREAK_ON_CONFIDENTIAL_PATHS: ${{ inputs.break-on-confidential-paths }}
     INPUT_OUTPUT_DIR: ${{ inputs.output-dir }}
